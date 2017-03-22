@@ -22,21 +22,43 @@ namespace bbb {
 		
 		custom_logger() {}
 		
-		logger_stream log(std::string tag = "", log_level level = log_level::info) {
+		logger_stream log() {
+			return logger_stream(default_tag, default_log_level, *this);;
+		}
+		logger_stream log(std::string tag) {
+			return logger_stream(tag, default_log_level, *this);;
+		}
+		logger_stream log(log_level level) {
+			return logger_stream(default_tag, level, *this);;
+		}
+		logger_stream log(std::string tag, log_level level) {
 			return logger_stream(tag, level, *this);;
 		}
-		inline logger_stream operator()(std::string tag = "", log_level level = log_level::info) { return log(tag, level); }
-		inline logger_stream verbose(std::string tag = "") { return log(tag, log_level::verbose); }
-		inline logger_stream info(std::string tag = "")    { return log(tag, log_level::info); }
-		inline logger_stream warning(std::string tag = "") { return log(tag, log_level::warning); }
-		inline logger_stream error(std::string tag = "")   { return log(tag, log_level::error); }
-		inline logger_stream fatal(std::string tag = "")   { return log(tag, log_level::fatal); }
+		template <typename ... arguments>
+		inline logger_stream operator()(arguments && ... args) { return log(std::forward<arguments>(args) ...); }
 		
+		inline logger_stream verbose(std::string tag) { return log(tag, log_level::verbose); }
+		inline logger_stream info(std::string tag)    { return log(tag, log_level::info); }
+		inline logger_stream warning(std::string tag) { return log(tag, log_level::warning); }
+		inline logger_stream error(std::string tag)   { return log(tag, log_level::error); }
+		inline logger_stream fatal(std::string tag)   { return log(tag, log_level::fatal); }
+		
+		inline logger_stream verbose() { return verbose(default_tag); }
+		inline logger_stream info()    { return info(default_tag); }
+		inline logger_stream warning() { return warning(default_tag); }
+		inline logger_stream error()   { return error(default_tag); }
+		inline logger_stream fatal()   { return fatal(default_tag); }
+
 		inline void enable() { set_enable(true); }
 		inline void disable() { set_enable(false); }
 		inline void set_enable(bool enable) { this->enabled = enabled; }
 		inline bool is_enabled() const { return enabled; }
+
+		inline void set_default_tag(const std::string &tag) { default_tag = tag; }
+		inline void set_default_log_level(log_level level) { default_log_level = level; }
 	private:
+		log_level default_log_level{log_level::info};
+		std::string default_tag{""};
 		bool enabled{true};
 		
 		using stream_type::os;
