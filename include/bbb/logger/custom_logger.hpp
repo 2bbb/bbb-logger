@@ -3,6 +3,7 @@
 #include "./detail/type_utils.hpp"
 #include "./detail/logger_utils.hpp"
 #include "./detail/logger_stream.hpp"
+#include "./builtin_modules/streams.hpp"
 
 namespace bbb {
 	template <typename ... configs>

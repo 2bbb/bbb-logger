@@ -1,10 +1,10 @@
 #pragma once
 
-#include "./modules.hpp"
 #include "./custom_logger.hpp"
+#include "./builtin_modules.hpp"
 
 namespace bbb {
-	using logger = custom_logger<>;
+	using logger = custom_logger<time_header>;
 	using file_logger = custom_logger<file_stream>;
 	using string_logger = custom_logger<string_stream>;
 	using trasher = custom_logger<null_stream>;
