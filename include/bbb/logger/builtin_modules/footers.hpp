@@ -13,6 +13,11 @@ namespace bbb {
         std::string foot(std::string tag, log_level level) const {
             return " (at " + time_utils::get_current_date_string() + ")";
         }
+        void set_footer_time_format(const std::string &format) {
+            this->format = format;
+        }
+    private:
+        std::string format{"%Y/%m/%d %T"};
     };
 
     struct elapsed_time_footer : footer {

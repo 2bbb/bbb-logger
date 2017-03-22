@@ -5,7 +5,7 @@
 
 namespace bbb {
 	using logger = custom_logger<time_header>;
-	using file_logger = custom_logger<file_stream>;
+	using file_logger = custom_logger<file_stream, time_header>;
 	using string_logger = custom_logger<string_stream>;
 	using trasher = custom_logger<null_stream>;
 	
