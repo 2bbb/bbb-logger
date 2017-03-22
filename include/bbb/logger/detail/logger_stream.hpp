@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "../log_level.hpp"
 
 namespace bbb {
@@ -21,7 +23,7 @@ namespace bbb {
 				return *this;
 			}
 			logger_stream &operator<<(std::ostream& (*f)(std::ostream&)) {
-				f(body.os());
+				f(body.os(level));
 				return *this;
 			}
 		protected:

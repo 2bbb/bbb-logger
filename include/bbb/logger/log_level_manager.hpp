@@ -18,8 +18,8 @@ namespace bbb {
 		inline static bool disable(log_level level) { return $(level, false); }
 		inline static bool set_enable(log_level level, bool enable) { return $(level, enable); }
 	private:
-		static std::bitset<static_cast<std::size_t>(log_level::no_out)> &$() {
-			static std::bitset<static_cast<std::size_t>(log_level::no_out)> _{0xFF};
+		static std::bitset<static_cast<std::size_t>(log_level::no_logging)> &$() {
+			static std::bitset<static_cast<std::size_t>(log_level::no_logging)> _{0xFF};
 			return _;
 		}
 		static constexpr std::size_t to_num(log_level lv) {

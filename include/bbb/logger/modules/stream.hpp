@@ -9,11 +9,20 @@
 
 namespace bbb {
 	struct stream {
-		std::ostream &os() { return std::cout; }
+		std::ostream &os(log_level level) {
+			switch(level) {
+				case bbb::log_level::verbose:
+				case bbb::log_level::info:
+				case bbb::log_level::warning:
+					return std::cout;
+				default:
+					return std::cerr;
+			}
+		}
 	};
 	
 	struct error_stream : stream {
-		std::ostream &os() { return std::cerr; }
+		std::ostream &os(log_level level) { return std::cerr; }
 	};
 	
 	struct file_stream : stream {
@@ -29,7 +38,7 @@ namespace bbb {
 				return true;
 			}
 		}
-		std::ostream &os() { return ofs; }
+		std::ostream &os(log_level level) { return ofs; }
 	private:
 		std::ofstream ofs;
 	};
@@ -43,7 +52,7 @@ namespace bbb {
 	};
 	
 	struct null_stream : stream {
-		std::ostream &os() { return ofs; }
+		std::ostream &os(log_level level) { return ofs; }
 	private:
 		std::ofstream ofs;
 	};

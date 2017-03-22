@@ -44,7 +44,7 @@ namespace bbb {
 		using separater_type::separate;
 		
 		inline std::ostream &os(log_level level) {
-			return log_level_manager::is_enabled(level) ? os() : ns.os();
+			return log_level_manager::is_enabled(level) ? stream_type::os(level) : ns.os(level);
 		}
 		null_stream ns;
 		friend logger_stream;
