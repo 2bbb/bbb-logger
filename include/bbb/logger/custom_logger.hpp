@@ -56,6 +56,11 @@ namespace bbb {
 
 		inline void set_default_tag(const std::string &tag) { default_tag = tag; }
 		inline void set_default_log_level(log_level level) { default_log_level = level; }
+
+		inline void br() { br(default_log_level); }
+		inline void br(log_level level) { os(level) << std::endl; }
+
+		inline std::ostream &raw() { return os(default_log_level); }
 	private:
 		log_level default_log_level{log_level::info};
 		std::string default_tag{""};
