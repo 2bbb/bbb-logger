@@ -32,7 +32,7 @@ namespace bbb {
 	};
 	
 	struct string_stream : stream {
-		std::ostream &os() { return ss; }
+		std::ostream &os(log_level level) { return ss; }
 		std::string text() { return ss.str(); }
 		void clear() { ss.clear(); }
 	private:
