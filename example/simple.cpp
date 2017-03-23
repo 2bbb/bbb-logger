@@ -42,9 +42,16 @@ int main(int argc, char *argv[]) {
 	bbb::log() << "default tag is customizable.";
 	bbb::log.set_default_log_level(bbb::log_level::verbose);
 	bbb::log() << "default log level is customizable.";
-
+	
+	// flog: file_logger
 	std::string log_file_name = "log.txt";
 	bbb::flog.open(log_file_name);
 	bbb::flog() << "start";
 	bbb::flog() << "this is logged in " << log_file_name << std::endl;
+
+	// slog: string_logger
+	bbb::slog() << "string logger start";
+	bbb::slog() << "slog stores log texts.";
+	bbb::slog() << "and get with bbb::slog.text()";
+	std::cout << bbb::slog.text();
 }
