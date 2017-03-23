@@ -19,6 +19,17 @@ namespace bbb {
 
 	static std::string to_string(log_level level) {
 		switch(level) {
+			case log_level::verbose: return "verb";
+			case log_level::info:    return "info";
+			case log_level::warning: return "warn";
+			case log_level::error:   return "erro";
+			case log_level::fatal:   return "fatl";
+			default:      			 return "!!!";
+		}
+	}
+	
+	static std::string to_long_string(log_level level) {
+		switch(level) {
 			case log_level::verbose: return "verbose";
 			case log_level::info:    return "info";
 			case log_level::warning: return "warning";
