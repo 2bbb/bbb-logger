@@ -1,6 +1,12 @@
 # bbb/logger
 
-## example
+## build example
+
+```sh
+$ ./build_example.sh
+```
+
+## short introduction
 
 ```cpp
 #include <bbb/logger.hpp>
