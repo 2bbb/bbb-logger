@@ -11,11 +11,16 @@ namespace bbb {
 			logger_stream(std::string tag, log_level level, logger &body)
 			: tag(tag)
 			, level(level)
-			, body(body) {
+			, body(body)
+			{
 				body.os(level) << body.head(tag, level);
 			}
 			
-			~logger_stream() { body.os(level) << body.foot(tag, level) << std::endl; }
+			~logger_stream() {
+				body.os(level) << body.foot(tag, level);
+				if(without_br) return;
+				body.os(level) << std::endl;
+			}
 			
 			template <typename type>
 			logger_stream &operator<<(const type &v) {
@@ -26,10 +31,15 @@ namespace bbb {
 				f(body.os(level));
 				return *this;
 			}
+			logger_stream &nobr() {
+				without_br = true;
+				return *this;
+			}
 		protected:
 			std::string tag;
 			log_level level;
 			logger &body;
+			bool without_br{false};
 			bool initial{true};
 			inline std::ostream &separated() {
 				if(initial) {
