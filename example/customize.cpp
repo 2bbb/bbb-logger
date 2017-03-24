@@ -39,6 +39,8 @@ struct custom_stream : bbb::stream {
 bbb::custom_logger<custom_header, custom_footer, bar_separater> my_logger;
 bbb::custom_logger<custom_formatter, bbb::elapsed_time_footer> time_logger;
 
+bbb::custom_logger<bbb::console_stream, bbb::string_stream> dual_logger;
+
 int main(int argc, char *argv[]) {
     my_logger("my_logger") << "foo";
     my_logger("my_logger") << "bar";
@@ -51,4 +53,7 @@ int main(int argc, char *argv[]) {
     my_logger.br();
 
     time_logger("time_logger") << "bar";
+
+    dual_logger() << "foo";
+    std::cout << dual_logger.text();
 }
