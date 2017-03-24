@@ -1,15 +1,31 @@
+/* **** **** **** **** **** **** **** **** *
+ *
+ *         _/        _/        _/
+ *        _/_/_/    _/_/_/    _/_/_/
+ *       _/    _/  _/    _/  _/    _/
+ *      _/    _/  _/    _/  _/    _/
+ *     _/_/_/    _/_/_/    _/_/_/
+ *
+ * bit by bit
+ * bbb/logger/modules/header.hpp
+ *
+ * author: ISHII 2bit
+ * mail:   bit_by_bit@2bit.jp
+ *
+ * **** **** **** **** **** **** **** **** */
+
 #pragma once
 
 #include <string>
 
-#include "../log_level.hpp"
+#include <bbb/logger/log_level.hpp>
 
 namespace bbb {
-	struct header {
-		std::string head(std::string tag, log_level level) const {
-			return "[ " + to_string(level) + " ] " + ((tag == "") ? "" : (tag + ": "));
+	namespace loggers {
+		struct header {
+			std::string head(std::string tag, log_level level) const {
+				return "[ " + to_string(level) + " ] " + ((tag == "") ? "" : (tag + ": "));
+			};
 		};
-	protected:
-		inline static std::string to_string(log_level level) { return bbb::to_string(level); }
 	};
 };
