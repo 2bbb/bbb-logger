@@ -30,6 +30,8 @@
 #include <bbb/tmp/type_container/type_sequence/operation/make_direct_product.hpp>
 #include <bbb/tmp/type_container/type_sequence/operation/make_combination.hpp>
 
+#include <bbb/tmp/type_container/type_sequence/operation/convert.hpp>
+
 namespace bbb {
     namespace tmp {
         namespace tseq_op = type_sequence_operations;
