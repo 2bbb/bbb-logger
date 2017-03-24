@@ -7,13 +7,8 @@
 
 namespace bbb {
 	template <typename ... configs>
-	struct custom_logger : detail::multiple_inheritance<
-		detail::get_stream_t<configs ...>,
-		detail::get_header_t<configs ...>,
-		detail::get_footer_t<configs ...>,
-		detail::get_separater_t<configs ...>
-	> {
-		using stream_type = detail::get_stream_t<configs ...>;
+	struct custom_logger : detail::logger_basis<configs ...> {
+		using streams_types = detail::get_streams_t<configs ...>;
 		using header_type = detail::get_header_t<configs ...>;
 		using footer_type = detail::get_footer_t<configs ...>;
 		using separater_type = detail::get_separater_t<configs ...>;
@@ -58,23 +53,30 @@ namespace bbb {
 		inline void set_default_log_level(log_level level) { default_log_level = level; }
 
 		inline void br() { br(default_log_level); }
-		inline void br(log_level level) { os(level) << std::endl; }
-
-		inline std::ostream &raw() { return os(default_log_level); }
+		inline void br(log_level level) { print(std::endl, level); }
 	private:
 		log_level default_log_level{log_level::info};
 		std::string default_tag{""};
 		bool enabled{true};
 		
-		using stream_type::os;
 		using header_type::head;
 		using footer_type::foot;
 		using separater_type::separate;
 		
-		inline std::ostream &os(log_level level) {
-			return log_level_manager::is_enabled(level) ? stream_type::os(level) : ns.os(level);
-		}
 		null_stream ns;
 		friend logger_stream;
+
+		template <typename type>
+		void print(const type &v, log_level level) {
+			if(log_level_manager::is_enabled(level)) {
+				detail::print_adaptor<streams_types>::print(*this, v, level);
+			}
+		}
+
+		void print(std::ostream& (*f)(std::ostream&), log_level level) {
+			if(log_level_manager::is_enabled(level)) {
+				detail::print_adaptor<streams_types>::print(*this, f, level);
+			}
+		}
 	};
 };

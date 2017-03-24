@@ -13,22 +13,24 @@ namespace bbb {
 			, level(level)
 			, body(body)
 			{
-				body.os(level) << body.head(tag, level);
+				body.print(body.head(tag, level), level);
 			}
 			
 			~logger_stream() {
-				body.os(level) << body.foot(tag, level);
+				body.print(body.foot(tag, level), level);
 				if(without_br) return;
-				body.os(level) << std::endl;
+				body.print(std::endl, level);
 			}
 			
 			template <typename type>
 			logger_stream &operator<<(const type &v) {
-				separated() << v;
+				if(initial) initial = false;
+				else body.print(body.separate(), level);
+				body.print(v, level);
 				return *this;
 			}
 			logger_stream &operator<<(std::ostream& (*f)(std::ostream&)) {
-				f(body.os(level));
+				body.print(f, level);
 				return *this;
 			}
 			logger_stream &nobr() {
@@ -41,13 +43,6 @@ namespace bbb {
 			logger &body;
 			bool without_br{false};
 			bool initial{true};
-			inline std::ostream &separated() {
-				if(initial) {
-					initial = false;
-					return body.os(level);
-				}
-				return body.os(level) << body.separate();
-			}
 		};
     }; // namespace detail
 }; // namespace bbb
