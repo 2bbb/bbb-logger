@@ -22,19 +22,6 @@
 namespace bbb {
     namespace tmp {
         namespace type_sequences {
-            template <std::size_t index, typename ... types>
-            struct type_at;
-            template <std::size_t index, typename ... types>
-            using type_at_t = get_type<type_at<index, types ...>>;
-            
-            template <std::size_t index, typename head, typename ... types>
-            struct type_at<index, head, types ...> : type_at<index - 1, types ...> {};
-
-            template <typename head, typename ... types>
-            struct type_at<0, head, types ...> {
-                using type = head;
-            };
-
             template <typename ... types>
             struct type_sequence;
 
