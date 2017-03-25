@@ -30,7 +30,8 @@ namespace bbb {
 			using separater_type = detail::get_separater_t<configs ...>;
 
 			using logger_stream = detail::logger_stream<custom_logger>;
-			
+			using stream_adaptor = detail::stream_adaptor<stream_types>;
+
 			custom_logger() {}
 			
 			logger_stream log() {
@@ -68,6 +69,10 @@ namespace bbb {
 			inline void set_default_tag(const std::string &tag) { default_tag = tag; }
 			inline void set_default_log_level(log_level level) { default_log_level = level; }
 
+			inline void set_log_level(log_level level) {
+				stream_adaptor::set_log_level(*this, level);
+			}
+
 			inline void br() { br(default_log_level); }
 			inline void br(log_level level) { print(std::endl, level); }
 		private:
@@ -82,18 +87,16 @@ namespace bbb {
 			null_stream ns;
 			friend logger_stream;
 
-			using printer = detail::print_adaptor<stream_types>;
-
 			template <typename type>
 			void print(const type &v, log_level level) {
 				if(log_level_manager::is_enabled(level)) {
-					printer::print(*this, v, level);
+					stream_adaptor::print(*this, v, level);
 				}
 			}
 
 			void print(std::ostream& (*f)(std::ostream&), log_level level) {
 				if(log_level_manager::is_enabled(level)) {
-					printer::print(*this, f, level);
+					stream_adaptor::print(*this, f, level);
 				}
 			}
 		};
