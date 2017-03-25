@@ -33,6 +33,9 @@ namespace bbb {
 		bool operator<=(log_level lhs, log_level rhs) {
 			return static_cast<std::uint8_t>(lhs) <= static_cast<std::uint8_t>(rhs);
 		}
+		bool operator<(log_level lhs, log_level rhs) {
+			return static_cast<std::uint8_t>(lhs) < static_cast<std::uint8_t>(rhs);
+		}
 
 		static std::string to_string(log_level level) {
 			switch(level) {
