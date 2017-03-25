@@ -32,20 +32,31 @@ namespace bbb {
 		
 		struct file_stream : stream {
 			virtual ~file_stream() { if(ofs.is_open()) ofs.close(); }
-			bool open(std::string path) {
+			bool open(const std::string &path, std::ostream::open_mode mode = std::ios::out | std::ios::app) {
 				if(ofs.is_open()) ofs.close();
 				
-				ofs.open(path, std::ios::out | std::ios::app);
+				ofs.open(path, mode);
 				if(ofs.fail()) {
+					file_path = path;
 					ofs.close();
 					return false;
 				} else {
+					file_path = "";
 					return true;
 				}
 			}
+			bool is_open() const { return ofs.is_open(); }
+			std::streamsize file_size() const {
+				if(file_path == "") return -1;
+				std::ifstream ifs(file_path, std::ios::in);
+				return ifs.seekg(0, std::ios::end).tellg();
+			}
+
+			std::string opened_path() const { return file_path; }
 			std::ostream &os(log_level level) { return ofs; }
 		private:
 			std::ofstream ofs;
+			std::string file_path;
 		};
 		
 		struct string_stream : stream {
