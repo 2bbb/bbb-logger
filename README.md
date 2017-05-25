@@ -1,4 +1,4 @@
-# bbb/logger
+# bbb-logger
 
 ## build example
 
